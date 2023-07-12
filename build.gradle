@@ -1,10 +1,17 @@
 plugins {
+	id 'babric-loom' version '1.1.+'
 	id 'java-library'
 	id 'maven-publish'
 	id 'idea'
 }
 
 def ENV = System.getenv()
+
+loom {
+	gluedMinecraftJar()
+	noIntermediateMappings()
+	customMinecraftManifest.set("https://github.com/MartinSVK12/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
+}
 
 repositories {
 	mavenCentral()
@@ -36,10 +43,18 @@ repositories {
 		}
 		metadataSources { artifact() }
 	}
+	ivy {
+		url = "https://piston-data.mojang.com"
+		patternLayout {
+			artifact "v1/[organisation]/[revision]/[module].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
 }
 
-sourceCompatibility = '8'
-targetCompatibility = '8'
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 version = providerVersion
 group = "sunsetsatellite"
@@ -47,12 +62,18 @@ archivesBaseName = "bta-provider"
 
 dependencies {
 	implementation group: 'org.jetbrains', name: 'intellij-fernflower', version: '1.2.1.16'
-	//implementation group: 'org.quiltmc', name: 'quilt-loader', version: '0.19.0-beta.13'
-	implementation "babric:fabric-loader:${loader_version}"
-	implementation "bta-download-repo:bta_1.7.7.0_pre2_client:1.7.7.0-prerelease-2"
+	//implementation group: 'org.quiltmc', name: 'quilt-loader', version: '0.19.0-beta.13'7
+	minecraft "bta-download-repo:bta_1.7.7.0_pre2_client:1.7.7.0-prerelease-2"
+	mappings loom.layered() {}
+
+	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45"
+	modImplementation "babric:fabric-loader:${loader_version}"
+
+	modImplementation "org.slf4j:slf4j-api:1.8.0-beta4"
+	modImplementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
 
 	//mixin requirements:
-	implementation 'org.spongepowered:mixin:' + mixinVersion
+	/*implementation 'org.spongepowered:mixin:' + mixinVersion
 	implementation 'com.google.guava:guava:21.0'
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.7'
 	implementation group: 'org.ow2.asm', name: 'asm', version: asmVersion
@@ -62,7 +83,7 @@ dependencies {
 	implementation group: 'org.ow2.asm', name: 'asm-util', version: asmVersion
 	implementation group: 'net.fabricmc', name: 'access-widener', version: '2.1.0'
 	implementation group: 'net.fabricmc', name: 'tiny-mappings-parser', version: '0.3.0+build.17'
-	implementation group: 'net.fabricmc', name: 'tiny-remapper', version: '0.8.2'
+	implementation group: 'net.fabricmc', name: 'tiny-remapper', version: '0.8.2'*/
 
 }
 
@@ -70,7 +91,7 @@ java {
 	withSourcesJar()
 }
 
-jar {
+/*jar {
 	manifest {
 		attributes(
 			'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
@@ -78,9 +99,9 @@ jar {
 			'Multi-Release': 'true'
 		)
 	}
-}
+}*/
 
-publishing {
+/*publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			artifact(jar)
@@ -99,5 +120,5 @@ publishing {
 	}
 	repositories {
 	}
-}
+}*/
 
