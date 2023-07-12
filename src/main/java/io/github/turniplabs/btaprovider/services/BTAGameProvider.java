@@ -201,7 +201,7 @@ public class BTAGameProvider implements GameProvider {
 			validParentClassPath.addAll(classifier.getLoaderOrigins());
 			validParentClassPath.addAll(classifier.getUnmatchedOrigins());
 			validParentClassPath.addAll(classpath);
-			validParentClassPath.addAll(gameJars);
+			//validParentClassPath.addAll(gameJars);
 			validParentClassPath.addAll(miscGameLibraries);
 			validParentClassPath.addAll(logJars);
 		} catch (IOException e) {
