@@ -42,8 +42,8 @@ sourceCompatibility = '8'
 targetCompatibility = '8'
 
 version = providerVersion
-group = "io.github.turniplabs"
-archivesBaseName = "BTAGameProvider"
+group = "sunsetsatellite"
+archivesBaseName = "bta-provider"
 
 dependencies {
 	implementation group: 'org.jetbrains', name: 'intellij-fernflower', version: '1.2.1.16'
